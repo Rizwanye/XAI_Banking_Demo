@@ -31,5 +31,32 @@ if click:
 
 ### Bottom information
 
+st.markdown(
+    """
+    <div style="padding-top: 20px;">
+        Ever since banks have witnessed the 2008 financial crisis, loan applications have adopted ever increasing complexity using tools such as:
+        <ul style="padding-top: 10px;">
+            <li>Credit scoring models</li>
+            <li>Machine learning algorithms</li>
+            <li>Behavioral analytics</li>
+            <li>Predictive analytics</li>
+            <li>and more</li>
+        </ul>
+        Often loans are approved or declined without much reasoning or deep understanding.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+###
+st.markdown("""
+# How does XAI bank help?
+XAI Bank was developed using a decision tree, and the decision-making process was explained through the LIME model. This approach enhances transparency by providing interpretable insights into complex machine learning models.
 
+To improve user comprehension, a part of this development utilized theoretical principles like cognitive load to understand how to appropriately present results for end users.
 
+Based on an empirical survey, XAI Bank utilizes radar charts and a language model to further aid users in understanding the features used within the machine learning model. In this context, the web app helps the end user understand the outcome of their loan application, which often in the real world is not transparent due to the complex systems utilized.
+
+This web app is the outcome of extensive empirical research conducted as part of the UTS Honors project.
+""")
+
+# Assuming loan_explained.jpg is in the same directory as your script
