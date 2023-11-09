@@ -47,12 +47,49 @@ clf = DecisionTreeClassifier()
 clf = clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
-st.sidebar.slider("Income Per Year", 0, 10000)
-st.sidebar.slider("Co-Applicant-Income Per Year", 0, 10000)
-st.sidebar.slider("Loan Amount", 0, 10000)
-st.sidebar.selectbox("Loan Term Duration", (120, 180, 240, 300, 360, 480))
-st.sidebar.selectbox("Gender", ("Male","Female"))
-st.sidebar.selectbox("Married", ("Yes","No"))
-st.sidebar.selectbox("Dependents", (1,2,3,4,5,6,7))
-st.sidebar.selectbox("Graduated From Uni", ("Yes","No"))
-st.sidebar.selectbox("Property Area", ("Rural","Semiurban","Urban"))
+income = st.sidebar.slider("Income Per Year", 0, 10000)
+co_applicant_income = st.sidebar.slider("Co-Applicant-Income Per Year", 0, 10000)
+loan_amount = st.sidebar.slider("Loan Amount", 0, 10000)
+loan_term = st.sidebar.selectbox("Loan Term Duration", (120, 180, 240, 300, 360, 480))
+gender = st.sidebar.selectbox("Gender", ("Male","Female"))
+married = st.sidebar.selectbox("Married", ("Yes","No"))
+dependents = st.sidebar.selectbox("Dependents", (1,2,3,4))
+graduated = st.sidebar.selectbox("Graduated From Uni", ("Yes","No"))
+employment = st.sidebar.selectbox("Self employment", ("Yes","No"))
+area = st.sidebar.selectbox("Property Area", ("Rural","Semiurban","Urban"))
+
+# Define input values based on user input
+input_values = {
+    'ApplicantIncome': income,
+    'CoapplicantIncome': co_applicant_income,
+    'LoanAmount': loan_amount,
+    'Loan_Amount_Term': loan_term,
+    'Gender_Female': 1 if gender == "Female" else 0,
+    'Gender_Male': 1 if gender == "Male" else 0,
+    'Married_No': 1 if married == "No" else 0,
+    'Married_Yes': 1 if married == "No" == "Yes" else 0,
+    'Dependents_0': 1 if dependents == 0 else 0,
+    'Dependents_1': 1 if dependents == 1 else 0,
+    'Dependents_2': 1 if dependents == 2 else 0,
+    'Dependents_3+': 1 if dependents == 4 else 0,
+    'Education_Graduate': 1 if graduated == "Yes" else 0,
+    'Education_Not Graduate': 1 if graduated == "No" else 0,
+    'Self_Employed_No': 1 if employment == "No" else 0,
+    'Self_Employed_Yes': 1 if employment== "Yes" else 0,
+    'Property_Area_Rural': 1 if area == "Rural" else 0,
+    'Property_Area_Semiurban': 1 if area == "Semiurban" else 0,
+    'Property_Area_Urban': 1 if area == "Urban" else 0,
+}
+
+# Create a Pandas DataFrame from the input values
+input_data = pd.DataFrame([input_values])
+
+# Use the trained classifier to make a prediction
+prediction = clf.predict(input_data)
+
+# Map the prediction to its corresponding label
+prediction_label = 'Y' if prediction[0] == 1 else 'N'
+
+# Display the prediction in the Streamlit app
+st.write("Hello world!", prediction_label)
+st.write(input_values)
