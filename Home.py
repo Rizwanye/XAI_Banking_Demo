@@ -13,7 +13,7 @@ from interpret.blackbox import LimeTabular
 from interpret import show
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
-
+st.sidebar.image("xai_logo.jpg", use_column_width=True)
 print("hello world!")
 st.title("Banking APP")
 st.write(""""
@@ -132,4 +132,3 @@ explanation = explain_prediction(input_data, clf)
 
 # Display the Lime explanation plot
 st.pyplot(explanation.as_pyplot_figure())
-
