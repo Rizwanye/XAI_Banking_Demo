@@ -88,8 +88,48 @@ input_data = pd.DataFrame([input_values])
 prediction = clf.predict(input_data)
 
 # Map the prediction to its corresponding label
-prediction_label = 'Y' if prediction[0] == 1 else 'N'
+prediction_label = 'Your loan has been succesfully approved' if prediction[0] == 1 else 'We apologise your loan is not acceptable'
 
 # Display the prediction in the Streamlit app
-st.write("Hello world!", prediction_label)
+st.write("Our machine learning algorithm has determined that: ", prediction_label)
 st.write(input_values)
+
+from lime.lime_tabular import LimeTabularExplainer
+
+# Create a Pandas DataFrame from the input values
+input_data = pd.DataFrame([input_values])
+
+# Load your trained classifier (clf) and data for Lime explanation (X_train, categorical_features)
+
+# Initialize a LimeTabularExplainer
+explainer = LimeTabularExplainer(training_data=X_train.values, mode="classification", feature_names=X.columns)
+
+# Predict using your model (make sure 'Credit_History' is removed as previously mentioned)
+
+# Get the prediction probability for the positive class (Y)
+
+# Create a function to explain the prediction
+def explain_prediction(input_data, clf):
+    # Ensure that the feature names in input_data match the model's training data
+    feature_names = X_train.columns.tolist()
+    input_data = input_data[feature_names]
+
+    # Explain the prediction
+    explanation = explainer.explain_instance(input_data.values[0], clf.predict_proba)
+    return explanation
+
+# Create a Streamlit app
+st.title("Loan Prediction")
+
+# Use the trained classifier to make a prediction
+prediction_label = 'Y'  # Replace with your model's prediction logic
+
+# Display the prediction
+st.write(f"Prediction for the given input: {prediction_label}")
+
+# Explain the prediction
+explanation = explain_prediction(input_data, clf)
+
+# Display the Lime explanation plot
+st.pyplot(explanation.as_pyplot_figure())
+
