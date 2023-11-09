@@ -1,6 +1,6 @@
 import streamlit as st
 from sidebar_logo import add_logo
-from model import predict_loan_approval, explain_prediction, clf
+from model import predict_loan_approval, explain_prediction, clf, explained_list
 add_logo("xai_logo.jpg")
 
 st.sidebar.markdown("# Applicant Information")
@@ -42,31 +42,25 @@ input_values = {
 }
 
 st.title("Bank Loan Application Explainer")
+st.markdown("<p style='font-size: 20px;'>This visualization shows the most important features used to determine the Loan application outcome.</p>", unsafe_allow_html=True)
 
 # Make predictions using the model
 prediction = predict_loan_approval(input_values, clf)
 
-# Map the prediction to its corresponding label
 prediction_label = 'Your loan has been successfully approved' if prediction[0] == 1 else 'We apologize, your loan is not acceptable'
 
-# Display the prediction in the Streamlit app
-st.write("Our machine learning algorithm has determined that: ", prediction_label)
-st.write(input_values)
-
-## side bar information
-
-
-
-# Map the prediction to its corresponding label
-prediction_label = 'Your loan has been succesfully approved' if prediction[0] == 1 else 'We apologise your loan is not acceptable'
-
-# Display the prediction in the Streamlit app
-st.write("Our machine learning algorithm has determined that: ", prediction_label)
-st.write(input_values)
+st.write(f"Prediction for the given input: {prediction_label}")
 
 # Create a Streamlit app
 st.title("Loan Prediction")
-#prediction_label = 'Y'
-st.write(f"Prediction for the given input: {prediction_label}")
+
 explanation = explain_prediction(input_values, clf)
 st.pyplot(explanation.as_pyplot_figure())
+
+##########################################################################
+# Explain the prediction for the input data
+
+# Now you have the simplified feature names and weights in a list of tuples
+# You can display it or further process it as needed
+explanation_list = explained_list(input_values, clf)
+st.write(f"Prediction for the given input: {explanation_list}")

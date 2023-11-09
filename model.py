@@ -55,4 +55,23 @@ def explain_prediction(input_values, clf):
     # Explain the prediction
     explanation = explainer.explain_instance(input_data.values[0], clf.predict_proba)
     return explanation
+def explained_list(input_values, clf):
+    input_data = pd.DataFrame([input_values])
+    explainer = LimeTabularExplainer(training_data=X_train.values, mode="classification", feature_names=X.columns)
+    explanation = explainer.explain_instance(input_data.values[0], clf.predict_proba, num_samples=1000, top_labels=1, num_features=10)
 
+    # Get the list of label indexes available in the explanation
+    label_indexes = explanation.available_labels()
+
+    # Assuming you want to get the explanation for the first label in the list
+    first_label_index = label_indexes[0]
+
+    # Create a list to store feature name and weight pairs
+    explanation_list = []
+
+    # Iterate through the explanation object to extract feature weights for the first label
+    for feature, weight in explanation.as_list(label=first_label_index):
+        # Extract only the feature name without the range information
+        feature_name = feature.split(' <= ')[0].split(' < ')[-1]
+        explanation_list.append((feature_name, weight))
+    return explanation_list
