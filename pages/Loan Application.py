@@ -20,7 +20,8 @@ import streamlit as st
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-
+from sidebar_logo import add_logo
+add_logo("xai_logo.jpg")
 st.markdown("# Home")
 
 print("hello world!")
