@@ -1,6 +1,7 @@
 import streamlit as st
 from sidebar_logo import add_logo
 from streamlit_extras.switch_page_button import switch_page
+from PIL import Image
 
 ### Miscallaneous Side bar stuff
 add_logo("xai_logo.jpg")
@@ -25,7 +26,7 @@ div.stButton > button:hover {
 ### Main page description of project
 
 st.title("XAI Bank: A Holistic Way To Understand Your Loan Application")
-click = st.button("Access XAI Loan Application")
+click = st.button("Click Here To Access XAI Loan Application")
 if click:
     switch_page("Loan Application")
 
@@ -47,9 +48,16 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-###
+######
 st.markdown("""
 # How does XAI bank help?
+""")
+
+image = Image.open('loan_explained.jpg')
+st.image(image, caption='Image Source By Knime')
+
+
+st.markdown("""
 XAI Bank was developed using a decision tree, and the decision-making process was explained through the LIME model. This approach enhances transparency by providing interpretable insights into complex machine learning models.
 
 To improve user comprehension, a part of this development utilized theoretical principles like cognitive load to understand how to appropriately present results for end users.
@@ -59,4 +67,3 @@ Based on an empirical survey, XAI Bank utilizes radar charts and a language mode
 This web app is the outcome of extensive empirical research conducted as part of the UTS Honors project.
 """)
 
-# Assuming loan_explained.jpg is in the same directory as your script

@@ -1,40 +1,17 @@
 import streamlit as st
-import csv
-import pandas as pd
-import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
-from sklearn.tree import DecisionTreeClassifier, plot_tree
-import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import f1_score, accuracy_score
-from interpret.blackbox import LimeTabular
-from interpret import show
-import matplotlib.pyplot as plt
-from sklearn.tree import plot_tree
-import base64
-import streamlit as st
-
-
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sidebar_logo import add_logo
-add_logo("xai_logo.jpg")
-st.markdown("# Home")
 
-print("hello world!")
-st.title("Banking APP")
-st.write(""""
-# Explore the reason why you recieve or decline loan?
-The model will show you the reason why your loan was approved
-""")
-# Load your dataset
+#sidebar logo
+add_logo("xai_logo.jpg")
+
+
+# Back End Decision Tree Development
 file_path = "Banking_Dataset.csv"
 df = pd.read_csv(file_path)
 
-# Preprocess the data as you did in your code
 banking_dataset = df.drop(columns="Loan_ID")
 banking_dataset = banking_dataset.dropna()
 banking_dataset = pd.get_dummies(banking_dataset, columns=['Gender', 'Married', 'Dependents', 'Education', 'Self_Employed', 'Property_Area'])
@@ -44,26 +21,31 @@ y = banking_dataset['Loan_Status']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
-# Define the list of categorical indices based on your column names
 categorical_features = [i for i, col in enumerate(X.columns) if col.startswith(('Gender_', 'Married_', 'Dependents_', 'Education_', 'Self_Employed_', 'Property_Area_'))]
 
-# Train your Decision Tree model
+# Training
 clf = DecisionTreeClassifier()
 clf = clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
-income = st.sidebar.slider("Income Per Year", 0, 10000)
-co_applicant_income = st.sidebar.slider("Co-Applicant-Income Per Year", 0, 10000)
-loan_amount = st.sidebar.slider("Loan Amount", 0, 10000)
-loan_term = st.sidebar.selectbox("Loan Term Duration", (120, 180, 240, 300, 360, 480))
+## side bar information
+st.sidebar.markdown("# Applicant Information")
 gender = st.sidebar.selectbox("Gender", ("Male","Female"))
 married = st.sidebar.selectbox("Married", ("Yes","No"))
-dependents = st.sidebar.selectbox("Dependents", (1,2,3,4))
 graduated = st.sidebar.selectbox("Graduated From Uni", ("Yes","No"))
+dependents = st.sidebar.selectbox("Dependents", (1,2,3,4))
+
+st.sidebar.markdown("# Financial Details")
+income = st.sidebar.slider("Income Per Year", 0, 10000)
+co_applicant_income = st.sidebar.slider("Co-Applicant-Income Per Year", 0, 10000)
 employment = st.sidebar.selectbox("Self employment", ("Yes","No"))
+
+st.sidebar.markdown("# Loan Request")
+loan_amount = st.sidebar.slider("Loan Amount", 0, 10000)
+loan_term = st.sidebar.selectbox("Loan Term Duration", (120, 180, 240, 300, 360, 480))
 area = st.sidebar.selectbox("Property Area", ("Rural","Semiurban","Urban"))
 
-# Define input values based on user input
+# User details to be pushed into decision classifier
 input_values = {
     'ApplicantIncome': income,
     'CoapplicantIncome': co_applicant_income,
@@ -125,15 +107,9 @@ def explain_prediction(input_data, clf):
 
 # Create a Streamlit app
 st.title("Loan Prediction")
-
-# Use the trained classifier to make a prediction
-prediction_label = 'Y'  # Replace with your model's prediction logic
-
-# Display the prediction
+prediction_label = 'Y'
 st.write(f"Prediction for the given input: {prediction_label}")
-
-# Explain the prediction
 explanation = explain_prediction(input_data, clf)
-
-# Display the Lime explanation plot
 st.pyplot(explanation.as_pyplot_figure())
+
+st.title("Bank Loan Application Explainer")
