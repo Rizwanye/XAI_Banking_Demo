@@ -12,11 +12,11 @@ st.sidebar.markdown("# Applicant Information")
 gender = st.sidebar.selectbox("Gender", ("Male", "Female"))
 married = st.sidebar.selectbox("Married", ("Yes", "No"))
 graduated = st.sidebar.selectbox("Graduated From Uni", ("Yes", "No"))
-dependents = st.sidebar.selectbox("Dependents", (1, 2, 3, 4))
+dependents = st.sidebar.selectbox("Dependents", (0, 1, 2, 3, 4))
 
 st.sidebar.markdown("# Financial Details")
-income = st.sidebar.slider("Income Per Year", 0, 60000)
-co_applicant_income = st.sidebar.slider("Co-Applicant-Income Per Year", 0, 60000)
+income = st.sidebar.slider("Income Per Year", 0, 10000)
+co_applicant_income = st.sidebar.slider("Co-Applicant-Income Per Year", 0, 10000)
 employment = st.sidebar.selectbox("Self employment", ("Yes", "No"))
 
 st.sidebar.markdown("# Loan Request")
@@ -74,26 +74,25 @@ def explanation_list_output():
         prediction = predict_loan_approval(input_values, clf)
         if prediction[0] == 0:
                 inverted_explanation_list = explained_list(input_values, clf)
-                explanation_list= [(feature, -value) for feature, value in inverted_explanation_list]
+                update = [(key, value) for key, value in inverted_explanation_list if
+                                 not (key.startswith("Dependents_") and input_values.get(key, 0) == 0)]
+                explanation_list= [(feature, -value) for feature, value in update]
         else:
-                explanation_list = explained_list(input_values, clf)
+                explanation_list_1 = explained_list(input_values, clf)
+                explanation_list = [(key, value) for key, value in explanation_list_1 if
+                  not (key.startswith("Dependents_") and input_values.get(key, 0) == 0)]
 
         return explanation_list
 
-st.write(explanation_list_output())
 
-import matplotlib.pyplot as plt
-import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-
 from matplotlib.cm import ScalarMappable
-from matplotlib.lines import Line2D
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from textwrap import wrap
-# Assuming you already have the Lime explanation_list
+
+
 explanation_list = explanation_list_output()
 
 # Sort the features by their weights for better visualization
@@ -191,7 +190,7 @@ cb.outline.set_visible(False)
 cb.ax.xaxis.set_tick_params(size=0)
 
 # Set legend label and move it to the top (instead of default bottom)
-cb.set_label("Amount of tracks", size=12, labelpad=-40)
+cb.set_label("Feature Importance Score", size=14, labelpad=-40)
 
 # Add annotations ------------------------------------------------
 
