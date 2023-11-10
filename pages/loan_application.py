@@ -39,6 +39,7 @@ time.sleep(1)
 my_bar.empty()
 
 st.title("Bank Loan Application Explainer")
+
 st.markdown(
             "<p style='font-size: 20px;'>To use the XAI bank application, please fill the information on the side then click on the button below.</p>",
             unsafe_allow_html=True)
@@ -107,6 +108,23 @@ if st.button("Calculate Loan Eligibility"):
 
     explanation_list = explanation_list_output()
     plot_feature_importance(explanation_list)
+
+from langchain.llms import GPT4All
+from langchain import PromptTemplate, LLMChain
+
+PATH = 'C:/Users/Reese/AppData/Local/nomic.ai/GPT4All/orca-mini-3b-gguf2-q4_0.gguf'
+llm = GPT4All(model=PATH, verbose=True)
+
+prompt = PromptTemplate(input_variables=['question'], template = """"
+Question:{question}
+Answer: Detailed Explanation non technical""")
+
+#LLM chain
+chain = LLMChain(prompt=prompt, llm=llm)
+input_response = "The outcome of your loan was " + str(prediction_label) + " The features used were " + str(explanation_list) + "What does this mean and what suggestions do you recommend?"
+response = chain.run(input_response)
+st.write(response)
+
 
 
 
