@@ -2,6 +2,10 @@ import streamlit as st
 from sidebar_logo import add_logo
 from model import predict_loan_approval, explain_prediction, clf, explained_list
 from radar_chart import plot_feature_importance
+from langchain.llms import GPT4All
+from langchain import PromptTemplate, LLMChain
+import streamlit as st
+import time
 
 favicon = "images/favicon.png"
 st.set_page_config(
@@ -24,10 +28,6 @@ st.sidebar.markdown("# Loan Request")
 loan_amount = st.sidebar.slider("Loan Amount", 0, 10000)
 loan_term = st.sidebar.selectbox("Loan Term Duration", (120, 180, 240, 300, 360, 480))
 area = st.sidebar.selectbox("Property Area", ("Rural", "Semiurban", "Urban"))
-
-
-import streamlit as st
-import time
 
 progress_text = "Operation in progress. Please wait."
 my_bar = st.progress(0, text=progress_text)
@@ -109,21 +109,29 @@ if st.button("Calculate Loan Eligibility"):
     explanation_list = explanation_list_output()
     plot_feature_importance(explanation_list)
 
-from langchain.llms import GPT4All
-from langchain import PromptTemplate, LLMChain
+    progress_bar = st.empty()
 
-PATH = 'C:/Users/Reese/AppData/Local/nomic.ai/GPT4All/orca-mini-3b-gguf2-q4_0.gguf'
-llm = GPT4All(model=PATH, verbose=True)
+    PATH = 'C:/Users/Reese/AppData/Local/nomic.ai/GPT4All/orca-mini-3b-gguf2-q4_0.gguf'
+    llm = GPT4All(model=PATH, verbose=True)
 
-prompt = PromptTemplate(input_variables=['question'], template = """"
-Question:{question}
-Answer: Detailed Explanation non technical""")
+    prompt = PromptTemplate(input_variables=['question'], template = """"
+    Question:{question}
+    Answer: Explain the application Outcome to a customer """)
 
-#LLM chain
-chain = LLMChain(prompt=prompt, llm=llm)
-input_response = "The outcome of your loan was " + str(prediction_label) + " The features used were " + str(explanation_list) + "What does this mean and what suggestions do you recommend?"
-response = chain.run(input_response)
-st.write(response)
+    #LLM chain
+    chain = LLMChain(prompt=prompt, llm=llm)
+    input_response = "Why did a customer recieve this outcome? " + str(prediction_label) + " The features used were " + str(explanation_list)
+
+    with st.spinner("Generating detailed response based on the outcome of your application, please wait..."):
+        response = chain.run(input_response)
+    progress_bar.empty()
+
+    styled_response = f"""
+    <div style="border: 1px solid lightgray; padding: 10px; background-color: #f2f2f2;">
+        {response}
+    </div>
+    """
+    st.markdown(styled_response, unsafe_allow_html=True)
 
 
 
