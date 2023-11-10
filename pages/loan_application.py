@@ -49,26 +49,13 @@ input_values = {
 st.title("Bank Loan Application Explainer")
 st.markdown("<p style='font-size: 20px;'>This visualization shows the most important features used to determine the Loan application outcome.</p>", unsafe_allow_html=True)
 
-# Make predictions using the model
+
 prediction = predict_loan_approval(input_values, clf)
 
-prediction_label = 'Your loan has been successfully approved' if prediction[0] == 1 else 'We apologize, your loan is not acceptable'
+prediction_label = 'Your application has been <b>APPROVED</b>, below the orange coloured bars have helped you receive this loan.' if prediction[0] == 1 else 'We apologize, your application has been <b>DECLINED</b>, you might want to look at the features highlighted in dark purple.'
 
-st.write(f"Prediction for the given input: {prediction_label}")
-
-# Create a Streamlit app
-st.title("Loan Prediction")
-
-explanation = explain_prediction(input_values, clf)
-st.pyplot(explanation.as_pyplot_figure())
-
-##########################################################################
-# Explain the prediction for the input data
-
-# Now you have the simplified feature names and weights in a list of tuples
-# You can display it or further process it as needed
-
-
+# Using st.write with Markdown for font size and HTML for bold text
+st.write(f"<p style='font-size: 20px; padding-bottom: 20px;'>{prediction_label}</p>", unsafe_allow_html=True)
 
 def explanation_list_output():
         prediction = predict_loan_approval(input_values, clf)
