@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from model import predict_loan_approval, explain_prediction, clf
-
+from pages.loan_application import explanation_list_output
 # Assuming you already have the Lime explanation_list
-explanation_list
+explanation_list = explanation_list_output()
 
 # Sort the features by their weights for better visualization
 explanation_list.sort(key=lambda x: x[1], reverse=True)
@@ -124,3 +123,5 @@ fig.text(0.1, 0.93, title, fontsize=25, weight="bold", ha="left", va="baseline")
 fig.text(0.1, 0.9, subtitle, fontsize=14, ha="left", va="top")
 
 # Note: you can use `fig.savefig("plot.png", dpi=300)` to save it with in hihg-quality.
+def show_radar():
+    return plt.show()

@@ -4,6 +4,11 @@ from streamlit_extras.switch_page_button import switch_page
 from PIL import Image
 
 ### Miscallaneous Side bar stuff
+favicon = "favicon.png"
+st.set_page_config(
+    page_icon=favicon
+)
+
 add_logo("xai_logo.jpg")
 st.sidebar.markdown(
     "This web app was created by Rizwan Ye as part of his Honours Project. You can find him on [GitHub](https://github.com/Rizwanye). \n\n**Supervisors From UTS:**\n- Shoujin Wang \n- Jianlong Zhou "
