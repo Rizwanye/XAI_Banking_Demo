@@ -55,7 +55,7 @@ st.markdown(
 )
 ######
 st.markdown("""
-# How does XAI bank help?
+# How Does XAI Bank Help?
 """)
 
 image = Image.open('images/loan_explained.jpg')
@@ -72,3 +72,22 @@ Based on an empirical survey, XAI Bank utilizes radar charts and a language mode
 This web app is the outcome of extensive empirical research conducted as part of the UTS Honors project.
 """)
 
+st.markdown("""
+# Functionality of XAI Bank
+""")
+
+st.markdown(
+    """
+    <div style="padding-top: 20px;">
+        The following funconality is incorporated within this web app:
+        <ul style="padding-top: 10px;">
+            <li>Decision Tree Modelling</li>
+            <li>XAI Lime interpretability model</li>
+            <li>Radar Chart Visualisation</li>
+            <li>GPT4ALL Lanuage model, specifically orca-mini</li>
+            <li>Streamlit For Design</li>
+        </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
+)

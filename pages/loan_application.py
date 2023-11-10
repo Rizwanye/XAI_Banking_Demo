@@ -120,7 +120,7 @@ if st.button("Calculate Loan Eligibility"):
 
     #LLM chain
     chain = LLMChain(prompt=prompt, llm=llm)
-    input_response = "Why did a customer recieve this outcome? " + str(prediction_label) + " The features used were " + str(explanation_list)
+    input_response = "Why did a customer recieve this outcome? " + str(prediction_label) + " The features used were " + str(explanation_list) + "Explain this result and give financial advice to improve the application outcome"
 
     with st.spinner("Generating detailed response based on the outcome of your application, please wait..."):
         response = chain.run(input_response)
