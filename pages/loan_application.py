@@ -3,11 +3,11 @@ from sidebar_logo import add_logo
 from model import predict_loan_approval, explain_prediction, clf, explained_list
 from radar_chart import plot_feature_importance
 
-favicon = "favicon.png"
+favicon = "images/favicon.png"
 st.set_page_config(
     page_icon=favicon
 )
-add_logo("xai_logo.jpg")
+add_logo("images/xai_logo.jpg")
 
 st.sidebar.markdown("# Applicant Information")
 gender = st.sidebar.selectbox("Gender", ("Male", "Female"))
