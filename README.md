@@ -25,3 +25,10 @@ The following funconality is incorporated within this web app:
             <li>Radar Chart Visualisation</li>
             <li>GPT4ALL Lanuage model, specifically orca-mini</li>
             <li>Streamlit For Design</li>
+
+# How To RUN
+Download this repository, download GPT4ALL orcha MINI. 
+Replace the location of orca mini in the file pages > loan_application.py 
+PATH = 'C:/Users/Reese/AppData/Local/nomic.ai/GPT4All/orca-mini-3b-gguf2-q4_0.gguf'
+
+Afterwards run in terminal streamlit run Home.py
