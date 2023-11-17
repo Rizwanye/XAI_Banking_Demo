@@ -1,2 +1,2 @@
-# This is apart of UTS honours degree
+# XAI Bank Honours Project 
 
