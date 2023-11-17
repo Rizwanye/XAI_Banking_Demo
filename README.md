@@ -18,9 +18,7 @@ This web app is the outcome of extensive empirical research conducted as part of
 
 # Functionality of XAI Bank
 
-
-
-        The following funconality is incorporated within this web app:
+The following funconality is incorporated within this web app:
         <ul style="padding-top: 10px;">
             <li>Decision Tree Modelling</li>
             <li>XAI Lime interpretability model</li>
