@@ -2,6 +2,8 @@
 This was completed as part of UTS honours projects requirements. Link to my presentation are below: 
 Honours Project Presentation:
 Video Presentation Of web Application:
+https://www.youtube.com/watch?v=daU6-F2Ww6o
+https://www.youtube.com/watch?v=j7LDvvPFKcY&t
 
 ## How Does XAI Bank Help?
 
